@@ -21,20 +21,6 @@ import java.util.Random;
 
 public class KafkaJsonProducer {
 
-	 
- /*
-	    // Logger 
-//	    private static final Logger LOG = LoggerFactory.getLogger(KafkaJsonProducer.class); 
-	private static int getRandomNumberInRange(int min, int max) {
-
-		if (min >= max) {
-			throw new IllegalArgumentException("max must be greater than min");
-		}
-
-		Random r = new Random();
-		return r.nextInt((max - min) + 1) + min;
-	}
-*/
 	   public static void main(String[] args) throws IOException {
 	        // Properties props = new Properties(); 
 	        // props.put("metadata.broker.list", getKafkaHostname() + ":" + getKafkaPort());
@@ -52,27 +38,34 @@ public class KafkaJsonProducer {
 	 
 	        // Send 10 messages to the local kafka server: 
 //	        LOG.info("KAFKA: Preparing to send {} initial messages", messageCount); 
-	        String[] custNames = {"Alex", "John", "Mark", "Dan", "Jim", "Mike", "Steve", "Pam", "Mary", "Jill"};
-	        String[] merchants = {"Amazon","Gap", "Walmart", "Google", "Expedia", "Kayak", "Target", "Kohls", "WholeFoods", "Kroger" };
-	        for (int i=1; i<=10; i++){ 
+	        //String[] custNames = {"Alex", "John", "Mark", "Dan", "Jim", "Mike", "Steve", "Pam", "Mary", "Jill"};
+	        //String[] merchants = {"Amazon","Gap", "Walmart", "Google", "Expedia", "Kayak", "Target", "Kohls", "WholeFoods", "Kroger" };
+	        String[] random_ctry_risk = {"1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2"};
+	        for (int i=1; i<=20; i++){ 
 	        	java.util.Date date= new java.util.Date();
 	            // Create the JSON object 
 	            JSONObject obj = new JSONObject(); 
 	            try { 
-	                obj.put("acct_num", "a100" + String.valueOf(i)); 
+	                obj.put("cust_id", "c000" + String.valueOf(i)); 
 	                //obj.put("tran_amt", String.valueOf(getRandomNumberInRange(101,999)));
+	                obj.put("sys_update_dt",new Timestamp(date.getTime()).toString());
+	                obj.put("tran_dt", new Timestamp(date.getTime()).toString());
 	                obj.put("tran_amt", "200" + String.valueOf(i));
-	                obj.put("tran_date", new Timestamp(date.getTime()).toString());
+	                obj.put("ctry_risk_rating", random_ctry_risk[i-1]);
+	                obj.put("cash_advance_cross_border_flag","Y");
+	                obj.put("cash_advance_tran_type_code","6"+ String.valueOf(i));
+	                obj.put("cash_withdrawal_tran_type_code","6"+ String.valueOf(i));
+	                obj.put("cash_withdrawal_merchant_code","700"+String.valueOf(i));
 	                //obj.put("cust_name", custNames[getRandomNumberInRange(0,9)] );
 	                //obj.put("merchant", merchants[getRandomNumberInRange(0,9)] );
-	                obj.put("cust_name", custNames[i-1] );
-	                obj.put("merchant", merchants[i-1] );
+	                //obj.put("cust_name", custNames[i-1] );
+	                //obj.put("merchant", merchants[i-1] );
 	                 
 	            } catch(JSONException e) { 
 	                e.printStackTrace(); 
 	            } 
 	            String payload = obj.toString(); 
-	            System.out.println("Payload=" + payload);
+	          //  System.out.println("Payload=" + payload);
 	         //   KeyedMessage<String, String> data1 = new KeyedMessage<String, String>(getTopic(), null, payload); 
 	            ProducerRecord<String, String> data = new ProducerRecord<String, String>("transaction",null,payload);
 	            producer.send(data); 
