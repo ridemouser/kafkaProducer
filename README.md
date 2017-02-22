@@ -1,0 +1,1 @@
+Kafka producer that publishes cross border transactions to a kafka topic "transaction" for aml demo
