@@ -75,7 +75,7 @@
 
                     <!-- (optional) name for binary executable, if not set will just -->
                     <!-- make the regular jar artifact executable -->
-                    <programFile>kafka-producer-exec</programFile>
+                    <programFile>kafka-producer-exec-aml</programFile>
                 </configuration>
 
                 <executions>

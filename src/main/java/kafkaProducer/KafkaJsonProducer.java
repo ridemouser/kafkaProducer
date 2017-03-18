@@ -40,7 +40,8 @@ public class KafkaJsonProducer {
 //	        LOG.info("KAFKA: Preparing to send {} initial messages", messageCount); 
 	        //String[] custNames = {"Alex", "John", "Mark", "Dan", "Jim", "Mike", "Steve", "Pam", "Mary", "Jill"};
 	        //String[] merchants = {"Amazon","Gap", "Walmart", "Google", "Expedia", "Kayak", "Target", "Kohls", "WholeFoods", "Kroger" };
-	        String[] random_ctry_risk = {"1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2"};
+	        String[] random_ctry_risk = {"H","M","L","H","M","L","H","M","L","H","M","L","H","M","L","H","M","L","H","M"};
+	        String[] tran_code_list = {"60","61","60","61","60","61","60","61","60","61","60","61","60","61","60","61","60","61","60","61","60","61","60","61"};
 	        for (int i=1; i<=20; i++){ 
 	        	java.util.Date date= new java.util.Date();
 	            // Create the JSON object 
@@ -53,9 +54,9 @@ public class KafkaJsonProducer {
 	                obj.put("tran_amt", "200" + String.valueOf(i));
 	                obj.put("ctry_risk_rating", random_ctry_risk[i-1]);
 	                obj.put("cash_advance_cross_border_flag","Y");
-	                obj.put("cash_advance_tran_type_code","6"+ String.valueOf(i));
-	                obj.put("cash_withdrawal_tran_type_code","6"+ String.valueOf(i));
-	                obj.put("cash_withdrawal_merchant_code","700"+String.valueOf(i));
+	                obj.put("tran_type_code", tran_code_list[i-1]);
+	                //obj.put("cash_withdrawal_tran_type_code","6"+ String.valueOf(i));
+	                obj.put("merchant_code","700"+String.valueOf(i));
 	                //obj.put("cust_name", custNames[getRandomNumberInRange(0,9)] );
 	                //obj.put("merchant", merchants[getRandomNumberInRange(0,9)] );
 	                //obj.put("cust_name", custNames[i-1] );
@@ -67,7 +68,7 @@ public class KafkaJsonProducer {
 	            String payload = obj.toString(); 
 	          //  System.out.println("Payload=" + payload);
 	         //   KeyedMessage<String, String> data1 = new KeyedMessage<String, String>(getTopic(), null, payload); 
-	            ProducerRecord<String, String> data = new ProducerRecord<String, String>("transaction",null,payload);
+	            ProducerRecord<String, String> data = new ProducerRecord<String, String>("transactions_aml",null,payload);
 	            producer.send(data); 
 	           
 	        } 
